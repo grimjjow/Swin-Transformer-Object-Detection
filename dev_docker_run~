@@ -1,0 +1,12 @@
+
+
+nvidia-docker run $DOCKER_ARGS --rm -it \
+	-v `pwd`/configs:/SWIN/configs \
+    -v `pwd`/demo:/SWIN/demo \
+    -v `pwd`/tests:/SWIN/tests \
+    -v `pwd`/tools:/SWIN/tools \
+    -v `pwd`/data:/SWIN/data \
+    -v `pwd`/checkpoints:/SWIN/checkpoints \
+    -v `pwd`/work_dirs:/SWIN/work_dirs \
+    --entrypoint '' \
+	swin
