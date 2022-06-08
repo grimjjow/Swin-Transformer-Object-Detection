@@ -1,6 +1,7 @@
 
 
 nvidia-docker run $DOCKER_ARGS --rm -it \
+    --shm-size=6600m \
 	-v `pwd`/configs:/SWIN/configs \
     -v `pwd`/demo:/SWIN/demo \
     -v `pwd`/tests:/SWIN/tests \

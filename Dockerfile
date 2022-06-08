@@ -10,14 +10,20 @@ RUN rm /etc/apt/sources.list.d/nvidia-ml.list
 RUN apt-get update && apt-get install -y ffmpeg libsm6 libxext6 git ninja-build libglib2.0-0 libsm6 libxrender-dev libxext6 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+    
+ENV TORCH_CUDA_ARCH_LIST="5.2 6.0 6.1 7.0+PTX"
+ENV TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
 
+RUN git clone https://github.com/nvidia/apex /apex && \
+  cd /apex && \
+  pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
+  
 WORKDIR /SWIN
 COPY requirements.txt requirements.txt
 COPY requirements requirements
 RUN pip install -r requirements/build.txt
+RUN pip install -r requirements/tests.txt
 
-ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0+PTX"
-ENV TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
 ENV CMAKE_PREFIX_PATH="$(dirname $(which conda))/../"
 
 ENV FORCE_CUDA="1"
@@ -29,6 +35,7 @@ RUN pip install timm
 # Install MMDetection
 # RUN conda clean --all
 # RUN git clone https://github.com/open-mmlab/mmdetection.git /mmdetection
+COPY mmcv_custom mmcv_custom
 COPY README.md README.md
 COPY setup.py setup.py
 COPY mmdet mmdet

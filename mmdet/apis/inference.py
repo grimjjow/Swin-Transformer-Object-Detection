@@ -206,12 +206,11 @@ def show_result_pyplot(model,
     """
     if hasattr(model, 'module'):
         model = model.module
+    
     model.show_result(
         img,
         result,
         score_thr=score_thr,
         show=True,
         wait_time=wait_time,
-        win_name=title,
-        bbox_color=(72, 101, 241),
-        text_color=(72, 101, 241))
+        win_name=title)

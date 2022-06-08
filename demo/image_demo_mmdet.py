@@ -34,14 +34,13 @@ def main(args):
     model = init_detector(args.config, args.checkpoint, device=args.device)
     # test a single image
     result = inference_detector(model, args.img)
+
     # show the results
     show_result_pyplot(
         model,
         args.img,
-        result,
-        palette=args.palette,
-        score_thr=args.score_thr,
-        out_file=args.out_file)
+        result[0],
+        score_thr=args.score_thr)
 
 
 async def async_main(args):
@@ -55,9 +54,7 @@ async def async_main(args):
         model,
         args.img,
         result[0],
-        palette=args.palette,
-        score_thr=args.score_thr,
-        out_file=args.out_file)
+        score_thr=args.score_thr)
 
 
 if __name__ == '__main__':
